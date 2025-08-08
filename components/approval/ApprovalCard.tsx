@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { CheckCircle, XCircle, Clock, User, Calendar } from 'lucide-react-native';
+import { CircleCheck as CheckCircle, Circle as XCircle, Clock, User, Calendar } from 'lucide-react-native';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
