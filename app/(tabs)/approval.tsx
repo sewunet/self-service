@@ -1,62 +1,53 @@
 import React from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-
-import { Header } from '@/components/ui/Header';
-import { ApprovalCard } from '@/components/approval/ApprovalCard';
-
-const approvalRequests = [
-  {
-    id: '1',
-    type: 'Leave Request',
-    requester: 'John Doe',
-    date: '2025-01-15 to 2025-01-17',
-    reason: 'Family vacation',
-    status: 'pending' as const,
-    submittedAt: '2 hours ago'
-  },
-  {
-    id: '2',
-    type: 'Expense Claim',
-    requester: 'Sarah Wilson',
-    amount: '$245.50',
-    reason: 'Client meeting expenses',
-    status: 'pending' as const,
-    submittedAt: '1 day ago'
-  },
-  {
-    id: '3',
-    type: 'Leave Request',
-    requester: 'Mike Johnson',
-    date: '2025-01-20',
-    reason: 'Medical appointment',
-    status: 'approved' as const,
-    submittedAt: '3 days ago'
-  }
-];
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  SafeAreaView,
+} from 'react-native';
+import { Header } from '@/components/Header';
+import { PendingRequestCard } from '@/components/PendingRequestCard';
+import { Section } from '@/components/ui/Section';
 
 export default function ApprovalScreen() {
-  const handleApprove = (id: string) => {
-    console.log('Approved request:', id);
-  };
+  const pendingRequests = [
+    {
+      id: 'HR-EXP-2025-00139',
+      date: '24-03-2025',
+      category: 'Others',
+      status: 'Draft',
+    },
+    {
+      id: 'HR-LEV-2025-00045',
+      date: '20-03-2025',
+      category: 'Leave',
+      status: 'Pending',
+    },
+    {
+      id: 'HR-EXP-2025-00123',
+      date: '18-03-2025',
+      category: 'Expense',
+      status: 'Approved',
+    },
+  ];
 
-  const handleReject = (id: string) => {
-    console.log('Rejected request:', id);
+  const handleRequestPress = (id: string) => {
+    console.log(`Request ${id} pressed`);
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header title="Approval Requests" />
-      
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        {approvalRequests.map((request) => (
-          <ApprovalCard
-            key={request.id}
-            request={request}
-            onApprove={handleApprove}
-            onReject={handleReject}
-          />
-        ))}
+      <Header />
+      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+        <Section title="Pending Requests">
+          {pendingRequests.map((request, index) => (
+            <PendingRequestCard 
+              key={index} 
+              {...request}
+              onPress={() => handleRequestPress(request.id)}
+            />
+          ))}
+        </Section>
       </ScrollView>
     </SafeAreaView>
   );
@@ -65,11 +56,9 @@ export default function ApprovalScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9FAFB',
+    backgroundColor: '#F8FAFC',
   },
-  content: {
+  scrollView: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 16,
   },
 });

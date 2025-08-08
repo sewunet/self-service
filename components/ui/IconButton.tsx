@@ -1,40 +1,43 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, ViewStyle } from 'react-native';
-import { Video as LucideIcon } from 'lucide-react-native';
 
 interface IconButtonProps {
-  icon: LucideIcon;
-  onPress: () => void;
+  icon: React.ReactNode;
+  onPress?: () => void;
   size?: number;
-  color?: string;
-  backgroundColor?: string;
   style?: ViewStyle;
+  disabled?: boolean;
 }
 
 export function IconButton({ 
-  icon: Icon, 
+  icon, 
   onPress, 
-  size = 24, 
-  color = '#6B7280',
-  backgroundColor = 'transparent',
-  style 
+  size = 40, 
+  style, 
+  disabled = false 
 }: IconButtonProps) {
   return (
-    <TouchableOpacity 
-      style={[styles.button, { backgroundColor }, style]} 
+    <TouchableOpacity
+      style={[
+        styles.button,
+        { width: size, height: size, borderRadius: size / 2 },
+        disabled && styles.disabled,
+        style,
+      ]}
       onPress={onPress}
-      activeOpacity={0.7}
+      disabled={disabled}
     >
-      <Icon size={size} color={color} />
+      {icon}
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
-    padding: 8,
-    borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  disabled: {
+    opacity: 0.5,
   },
 });

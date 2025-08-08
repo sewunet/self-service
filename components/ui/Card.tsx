@@ -4,11 +4,12 @@ import { View, StyleSheet, ViewStyle } from 'react-native';
 interface CardProps {
   children: React.ReactNode;
   style?: ViewStyle;
+  padding?: number;
 }
 
-export function Card({ children, style }: CardProps) {
+export function Card({ children, style, padding = 16 }: CardProps) {
   return (
-    <View style={[styles.card, style]}>
+    <View style={[styles.card, { padding }, style]}>
       {children}
     </View>
   );
@@ -16,14 +17,15 @@ export function Card({ children, style }: CardProps) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
     borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 3,
-    elevation: 2,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });

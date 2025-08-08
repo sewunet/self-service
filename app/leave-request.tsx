@@ -1,13 +1,29 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import { Calendar, ChevronDown, User, Mail } from 'lucide-react-native';
+import { Calendar, ChevronDown, Mail, User } from 'lucide-react-native';
+import React, { useState } from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { Button } from '@/components/ui/Button';
 import { Header } from '@/components/ui/Header';
 import { Input } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
 
+/*************  ✨ Windsurf Command ⭐  *************/
+/**
+ * LeaveRequestScreen is a component for submitting a new leave request.
+ * It allows users to input the start and end dates of the leave,
+ * select the type of leave, toggle half-day leave, provide a reason,
+ * and specify the approver's details.
+ * 
+ * - The screen includes input fields for start and end dates with a calendar icon.
+ * - A dropdown for selecting the leave type.
+ * - A toggle for adding a half-day leave.
+ * - A multiline input for entering the reason for leave.
+ * - Input fields for approver's name and email.
+ * - Action buttons to cancel or submit the leave request.
+ */
+
+/*******  91db586d-2521-482f-a6d3-9c52dcfe8122  *******/
 export default function LeaveRequestScreen() {
   const [startDate, setStartDate] = useState('2025-08-08');
   const [endDate, setEndDate] = useState('2025-08-08');

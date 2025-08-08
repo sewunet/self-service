@@ -1,9 +1,9 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { CircleCheck as CheckCircle, Circle as XCircle, Clock, User, Calendar } from 'lucide-react-native';
-import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
+import { Calendar, CircleCheck as CheckCircle, Clock, User, Circle as XCircle } from 'lucide-react-native';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 interface ApprovalRequest {
   id: string;
@@ -54,8 +54,7 @@ export function ApprovalCard({ request, onApprove, onReject }: ApprovalCardProps
         </View>
         <Badge
           text={request.status.charAt(0).toUpperCase() + request.status.slice(1)}
-          icon={StatusIcon}
-          color={statusColor}
+          variant="primary"
         />
       </View>
       

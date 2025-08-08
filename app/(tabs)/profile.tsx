@@ -1,24 +1,30 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
-import { 
-  User, 
-  GraduationCap, 
-  CreditCard, 
-  Fingerprint, 
-  Lock, 
-  Globe, 
-  Palette, 
-  FileText, 
-  Building,
-  LogOut
-} from 'lucide-react-native';
-
-import { Header } from '@/components/ui/Header';
-import { ProfileSection } from '@/components/profile/ProfileSection';
 import { LogoutModal } from '@/components/actions/LogoutModal';
-
+import { Header } from '@/components/Header';
+import { ProfileSection } from '@/components/profile/ProfileSection';
+import { Avatar } from '@/components/ui/Avatar';
+import { Card } from '@/components/ui/Card';
+import {
+  Bell,
+  Building,
+  CreditCard,
+  FileText,
+  Fingerprint,
+  Globe,
+  GraduationCap,
+  Lock,
+  LogOut,
+  Palette,
+  Settings,
+  Shield,
+  User
+} from 'lucide-react-native';
+import React, { useState } from 'react';
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text
+} from 'react-native';
 const profileSections = [
   {
     title: 'Personal Details',
@@ -81,11 +87,15 @@ const documentSections = [
     onPress: () => console.log('Company Policy')
   }
 ];
-
 export default function ProfileScreen() {
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
-
-  const logoutSections = [
+  const profileOptions = [
+    { icon: Settings, title: 'Settings', color: '#6B7280', onPress: () => console.log('Settings') },
+    { icon: Bell, title: 'Notifications', color: '#F59E0B', onPress: () => console.log('Notifications') },
+    { icon: Shield, title: 'Privacy & Security', color: '#10B981', onPress: () => console.log('Privacy') },
+    { icon: LogOut, title: 'Sign Out', color: '#EF4444', onPress: () => console.log('Sign Out') },
+  ];
+ const [showLogoutModal, setShowLogoutModal] = useState(false);
+   const logoutSections = [
     {
       title: 'Logout',
       icon: LogOut,
@@ -101,22 +111,33 @@ export default function ProfileScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header title="My Profile" />
-      
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <Header />
+      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+        <Card style={styles.profileHeader}>
+          <Avatar
+            source="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=200"
+            size={80}
+            fallback="BM"
+          />
+          <Text style={styles.name}>Bhavesh Maheshwari</Text>
+          <Text style={styles.role}>Security Officer</Text>
+          <Text style={styles.employeeId}>EMP-2024-001</Text>
+        </Card>
+
         <ProfileSection items={profileSections} />
         <ProfileSection items={settingsSections} />
         <ProfileSection items={documentSections} />
         <ProfileSection items={logoutSections} />
         
-        <Text style={styles.version}>v2.1.29-0 (150)</Text>
-      </ScrollView>
-
+        <Text style={styles.container}>v2.1.29-0 (150)</Text>
+        
       <LogoutModal
         visible={showLogoutModal}
         onClose={() => setShowLogoutModal(false)}
         onConfirm={handleLogout}
       />
+        
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -124,17 +145,38 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9FAFB',
+    backgroundColor: '#F8FAFC',
   },
-  content: {
+  scrollView: {
     flex: 1,
-    paddingTop: 20,
   },
-  version: {
-    textAlign: 'center',
+  profileHeader: {
+    marginHorizontal: 16,
+    marginTop: 16,
+    alignItems: 'center',
+    paddingVertical: 32,
+    marginBottom: 16,
+  },
+  name: {
+    fontSize: 22,
+    fontWeight: '600',
+    color: '#1F2937',
+    marginBottom: 4,
+  },
+  role: {
+    fontSize: 16,
+    color: '#6B7280',
+    marginBottom: 4,
+  },
+  employeeId: {
     fontSize: 14,
-    color: '#4F46E5',
-    marginBottom: 100,
-    fontWeight: '500',
+    color: '#9CA3AF',
+  },
+  iconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

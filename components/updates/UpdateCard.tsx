@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Video as LucideIcon } from 'lucide-react-native';
 import { Card } from '@/components/ui/Card';
+import { Video as LucideIcon } from 'lucide-react-native';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 interface Update {
   id: string;
@@ -9,7 +9,7 @@ interface Update {
   title: string;
   description: string;
   time: string;
-  icon: LucideIcon;
+  icon: typeof LucideIcon;
   color: string;
 }
 

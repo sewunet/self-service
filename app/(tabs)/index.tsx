@@ -1,162 +1,84 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
-import { Plus, ClipboardList, DollarSign, Calendar, UserCheck, SquareCheck as CheckSquare, CreditCard, Coins } from 'lucide-react-native';
-
-import { TabSelector } from '@/components/ui/TabSelector';
-import { Button } from '@/components/ui/Button';
-import { FloatingActionButton } from '@/components/ui/FloatingActionButton';
-import { PostCard } from '@/components/feed/PostCard';
-import { PollCard } from '@/components/feed/PollCard';
-import { QuickActionsModal } from '@/components/actions/QuickActionsModal';
-
-const tabs = [
-  { id: 'Posts', title: 'Posts' },
-  { id: 'Events', title: 'Events' }
-];
-
-const mockPosts = [
-  {
-    id: '1',
-    author: 'Bhavesh Maheshwari',
-    avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150',
-    timeAgo: '3 days ago',
-    content: 'i am newly join morden security services.as a security, just i search how can i register my attendance. thanking you.',
-    likes: 0,
-    comments: 0,
-    shares: 0
-  },
-  {
-    id: '2',
-    author: 'Bhavesh Maheshwari',
-    avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150',
-    timeAgo: '14 days ago',
-    content: 'jdj3jh',
-    likes: 1,
-    comments: 0,
-    shares: 0
-  }
-];
-
-const mockPoll = {
-  id: '3',
-  author: 'Ravi',
-  avatar: 'https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=150',
-  timeAgo: '5 months ago',
-  question: 'What do you think about when working on large projects?',
-  options: [
-    {
-      id: '1',
-      text: 'Code maintainability and scalability',
-      percentage: 0.00
-    }
-  ]
-};
-
-const quickActions = [
-  { 
-    id: 'expense', 
-    title: 'Apply Expense', 
-    icon: DollarSign, 
-    color: '#4F46E5',
-    onPress: () => console.log('Apply Expense')
-  },
-  { 
-    id: 'leave', 
-    title: 'Apply Leave', 
-    icon: Calendar, 
-    color: '#059669',
-    onPress: () => router.push('/leave-request')
-  },
-  { 
-    id: 'order', 
-    title: 'Create Order', 
-    icon: ClipboardList, 
-    color: '#7C3AED',
-    onPress: () => console.log('Create Order')
-  },
-  { 
-    id: 'visit', 
-    title: 'Create Visit', 
-    icon: UserCheck, 
-    color: '#0891B2',
-    onPress: () => console.log('Create Visit')
-  },
-  { 
-    id: 'task', 
-    title: 'Create Task', 
-    icon: CheckSquare, 
-    color: '#DC2626',
-    onPress: () => console.log('Create Task')
-  },
-  { 
-    id: 'payment', 
-    title: 'Payment Entry', 
-    icon: CreditCard, 
-    color: '#EA580C',
-    onPress: () => console.log('Payment Entry')
-  },
-  { 
-    id: 'petty', 
-    title: 'Petty Expense', 
-    icon: Coins, 
-    color: '#16A34A',
-    onPress: () => console.log('Petty Expense')
-  }
-];
+import { QuickActionGrid } from '@/components/actions/QuickActionGrid';
+import { AttendanceOverview } from '@/components/AttendanceOverview';
+import { Header } from '@/components/Header';
+import { LeaveBalanceCard } from '@/components/LeaveBalanceCard';
+import { PendingRequestCard } from '@/components/PendingRequestCard';
+import { SalaryCard } from '@/components/SalaryCard';
+import { Section } from '@/components/ui/Section';
+import { ArrowRightLeft, Bed, Calendar, Clipboard, CreditCard, DollarSign, MapPin, Receipt, UserCheck } from 'lucide-react-native';
+import React from 'react';
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 
 export default function HomeScreen() {
-  const [activeTab, setActiveTab] = useState('Posts');
-  const [showQuickActions, setShowQuickActions] = useState(false);
+  const actionItems = [
+    { icon: DollarSign, title: 'Expense', color: '#10B981' },
+    { icon: Calendar, title: 'Holiday', color: '#F59E0B' },
+    { icon: Clipboard, title: 'Orders', color: '#2563EB' },
+    { icon: Bed, title: 'Leave', color: '#EF4444' },
+    { icon: UserCheck, title: 'Attendance', color: '#8B5CF6' },
+    { icon: MapPin, title: 'Visit', color: '#06B6D4' },
+    { icon: Receipt, title: 'Payroll', color: '#84CC16' },
+    { icon: ArrowRightLeft, title: 'Transactions', color: '#F97316' },
+    { icon: CreditCard, title: 'Payment', color: '#EC4899' },
+  ];
+
+  const handleActionPress = (title: string) => {
+    console.log(`Pressed ${title}`);
+  };
+
+  const actionsWithHandlers = actionItems.map(item => ({
+    ...item,
+    onPress: () => handleActionPress(item.title),
+  }));
+
+  const handleRequestPress = () => {
+    console.log('Request pressed');
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header Tabs */}
-      <View style={styles.header}>
-        <TabSelector
-          tabs={tabs}
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-        />
-      </View>
+      <Header />
+      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+        <AttendanceOverview />
+        
+        <Section title="Leave Balance">
+          <View style={styles.leaveBalanceContainer}>
+            <LeaveBalanceCard
+              title="Compensatory Off"
+              balance={8.0}
+              allocated={12.0}
+              color="#2563EB"
+            />
+            <LeaveBalanceCard
+              title="Sick Leave"
+              balance={0.0}
+              allocated={6.0}
+              color="#9CA3AF"
+            />
+          </View>
+        </Section>
 
-      {/* Quick Actions */}
-      <View style={styles.quickActionsContainer}>
-        <Button
-          title="Create Post"
-          variant="secondary"
-          style={styles.createButton}
-          onPress={() => console.log('Create Post')}
-        />
-        <Button
-          title="Create Poll"
-          variant="secondary"
-          style={styles.createButton}
-          onPress={() => console.log('Create Poll')}
-        />
-      </View>
+        <SalaryCard />
 
-      {/* Posts Feed */}
-      <ScrollView style={styles.feed} showsVerticalScrollIndicator={false}>
-        {mockPosts.map((post) => (
-          <PostCard key={post.id} post={post} />
-        ))}
-        <PollCard poll={mockPoll} />
+        <Section title="What would you like to do?">
+          <QuickActionGrid actions={actionsWithHandlers} />
+        </Section>
+
+        <Section title="Pending requests">
+          <PendingRequestCard
+            id="HR-EXP-2025-00139"
+            date="24-03-2025"
+            category="Others"
+            status="Draft"
+            onPress={handleRequestPress}
+          />
+        </Section>
       </ScrollView>
-
-      {/* Floating Action Button */}
-      <FloatingActionButton
-        icon={Plus}
-        onPress={() => setShowQuickActions(true)}
-      />
-
-      {/* Quick Actions Modal */}
-      <QuickActionsModal
-        visible={showQuickActions}
-        onClose={() => setShowQuickActions(false)}
-        actions={quickActions}
-      />
     </SafeAreaView>
   );
 }
@@ -164,29 +86,14 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9FAFB',
+    backgroundColor: '#F8FAFC',
   },
-  header: {
-    backgroundColor: 'white',
-    paddingHorizontal: 20,
-    paddingTop: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E7EB',
+  scrollView: {
+    flex: 1,
   },
-  quickActionsContainer: {
+  leaveBalanceContainer: {
     flexDirection: 'row',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
+    justifyContent: 'space-between',
     gap: 12,
-    backgroundColor: 'white',
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E7EB',
-  },
-  createButton: {
-    flex: 1,
-  },
-  feed: {
-    flex: 1,
-    paddingHorizontal: 20,
   },
 });
