@@ -1,10 +1,10 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
 import { ActionCard } from '@/components/ActionCard';
 import { Video as LucideIcon } from 'lucide-react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 
 interface QuickAction {
-  icon: LucideIcon;
+  icon: typeof LucideIcon;
   title: string;
   color: string;
   onPress?: () => void;
@@ -15,7 +15,7 @@ interface QuickActionGridProps {
   columns?: number;
 }
 
-export function QuickActionGrid({ actions, columns = 3 }: QuickActionGridProps) {
+export function QuickActionGrid({ actions, columns = 2 }: QuickActionGridProps) {
   return (
     <View style={styles.grid}>
       {actions.map((action, index) => (

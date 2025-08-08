@@ -1,8 +1,8 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { CircleAlert as AlertCircle } from 'lucide-react-native';
-import { Modal } from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
+import { Modal } from '@/components/ui/Modal';
+import { CircleAlert as AlertCircle } from 'lucide-react-native';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 interface LogoutModalProps {
   visible: boolean;
@@ -26,7 +26,7 @@ export function LogoutModal({ visible, onClose, onConfirm }: LogoutModalProps) {
         <View style={styles.actions}>
           <Button
             title="Yes, Logout"
-            variant="danger"
+            variant="primary"
             onPress={onConfirm}
             style={styles.logoutButton}
           />

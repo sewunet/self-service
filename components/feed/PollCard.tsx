@@ -1,9 +1,9 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { MoveHorizontal as MoreHorizontal } from 'lucide-react-native';
-import { Card } from '@/components/ui/Card';
 import { Avatar } from '@/components/ui/Avatar';
+import { Card } from '@/components/ui/Card';
 import { IconButton } from '@/components/ui/IconButton';
+import { MoveHorizontal as MoreHorizontal } from 'lucide-react-native';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface PollOption {
   id: string;
@@ -37,7 +37,7 @@ export function PollCard({ poll, onVote }: PollCardProps) {
             <Text style={styles.timeAgo}>{poll.timeAgo}</Text>
           </View>
         </View>
-        <IconButton icon={MoreHorizontal} onPress={() => {}} />
+        <IconButton icon={<MoreHorizontal size={20} color="#6B7280" />} onPress={() => {}} />
       </View>
       
       <Text style={styles.question}>{poll.question}</Text>

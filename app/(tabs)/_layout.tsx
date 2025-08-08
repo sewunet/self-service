@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { Chrome as Home, Calendar, CircleCheck as CheckCircle, User } from 'lucide-react-native';
+import { Calendar, CircleCheck as CheckCircle, HomeIcon as Home, User } from 'lucide-react-native';
 
 export default function TabLayout() {
   return (

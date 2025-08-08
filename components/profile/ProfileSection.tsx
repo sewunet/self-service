@@ -1,11 +1,10 @@
+import { ChevronRight, Video as LucideIcon } from 'lucide-react-native';
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { ChevronRight } from 'lucide-react-native';
-import { Video as LucideIcon } from 'lucide-react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface ProfileSectionItem {
   title: string;
-  icon: LucideIcon;
+  icon: typeof LucideIcon;
   color: string;
   onPress?: () => void;
 }

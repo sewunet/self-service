@@ -3,6 +3,7 @@ import { Header } from '@/components/Header';
 import { ProfileSection } from '@/components/profile/ProfileSection';
 import { Avatar } from '@/components/ui/Avatar';
 import { Card } from '@/components/ui/Card';
+import { router } from 'expo-router';
 import {
   Bell,
   Building,
@@ -119,8 +120,8 @@ export default function ProfileScreen() {
             size={80}
             fallback="BM"
           />
-          <Text style={styles.name}>Bhavesh Maheshwari</Text>
-          <Text style={styles.role}>Security Officer</Text>
+          <Text style={styles.name}>Sewunet Abebaw</Text>
+          <Text style={styles.role}>Software Engineer</Text>
           <Text style={styles.employeeId}>EMP-2024-001</Text>
         </Card>
 
