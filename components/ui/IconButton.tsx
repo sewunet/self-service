@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, ViewStyle } from 'react-native';
-import { LucideIcon } from 'lucide-react-native';
+import { Video as LucideIcon } from 'lucide-react-native';
 
 interface IconButtonProps {
   icon: LucideIcon;
