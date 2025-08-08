@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { Platform } from 'react-native';
-import { Home, User, CheckSquare, FileText } from 'lucide-react-native';
+import { Chrome as Home, User, SquareCheck as CheckSquare, FileText } from 'lucide-react-native';
 
 import { HapticTab } from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';

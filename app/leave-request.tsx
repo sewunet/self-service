@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import { ChevronLeft, Calendar, ChevronDown, User, Mail } from 'lucide-react-native';
+import { Calendar, ChevronDown, User, Mail } from 'lucide-react-native';
+
+import { Header } from '@/components/ui/Header';
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
 
 export default function LeaveRequestScreen() {
   const [startDate, setStartDate] = useState('2025-08-08');
@@ -14,7 +18,6 @@ export default function LeaveRequestScreen() {
   const [approverEmail, setApproverEmail] = useState('mukul@gmail.com');
 
   const handleSubmit = () => {
-    // Handle form submission
     router.back();
   };
 
@@ -24,55 +27,42 @@ export default function LeaveRequestScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-          <ChevronLeft size={24} color="#4F46E5" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>New Leave Request</Text>
-        <View style={styles.placeholder} />
-      </View>
+      <Header 
+        title="New Leave Request" 
+        showBackButton 
+        onBackPress={() => router.back()}
+      />
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* Date Inputs */}
         <View style={styles.dateRow}>
-          <View style={styles.dateContainer}>
-            <Text style={styles.inputLabel}>Start Day*</Text>
-            <View style={styles.dateInputWrapper}>
-              <Calendar size={20} color="#9CA3AF" />
-              <TextInput
-                style={styles.dateInput}
-                value={startDate}
-                onChangeText={setStartDate}
-                placeholder="2025-08-08"
-              />
-            </View>
-          </View>
+          <Input
+            label="Start Day*"
+            icon={Calendar}
+            value={startDate}
+            onChangeText={setStartDate}
+            placeholder="2025-08-08"
+            containerStyle={styles.dateContainer}
+          />
           
-          <View style={styles.dateContainer}>
-            <Text style={styles.inputLabel}>End Day*</Text>
-            <View style={styles.dateInputWrapper}>
-              <Calendar size={20} color="#9CA3AF" />
-              <TextInput
-                style={styles.dateInput}
-                value={endDate}
-                onChangeText={setEndDate}
-                placeholder="2025-08-08"
-              />
-            </View>
-          </View>
+          <Input
+            label="End Day*"
+            icon={Calendar}
+            value={endDate}
+            onChangeText={setEndDate}
+            placeholder="2025-08-08"
+            containerStyle={styles.dateContainer}
+          />
         </View>
 
         {/* Leave Type Dropdown */}
-        <View style={styles.inputContainer}>
-          <TouchableOpacity style={styles.dropdownWrapper}>
-            <View style={styles.dropdownContent}>
-              <Calendar size={20} color="#9CA3AF" />
-              <Text style={styles.dropdownPlaceholder}>Select leave type*</Text>
-            </View>
-            <ChevronDown size={20} color="#9CA3AF" />
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity style={styles.dropdownWrapper}>
+          <View style={styles.dropdownContent}>
+            <Calendar size={20} color="#9CA3AF" />
+            <Text style={styles.dropdownPlaceholder}>Select leave type*</Text>
+          </View>
+          <ChevronDown size={20} color="#9CA3AF" />
+        </TouchableOpacity>
 
         {/* Half Day Toggle */}
         <TouchableOpacity 
@@ -83,57 +73,49 @@ export default function LeaveRequestScreen() {
         </TouchableOpacity>
 
         {/* Reason Input */}
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.reasonInput}
-            value={reason}
-            onChangeText={setReason}
-            placeholder="Type reason here...*"
-            placeholderTextColor="#9CA3AF"
-            multiline
-            numberOfLines={4}
-            textAlignVertical="top"
-          />
-        </View>
+        <Input
+          value={reason}
+          onChangeText={setReason}
+          placeholder="Type reason here...*"
+          multiline
+          numberOfLines={4}
+          style={styles.reasonInput}
+          containerStyle={styles.reasonContainer}
+        />
 
-        {/* Approver Name */}
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>Approver Name*</Text>
-          <View style={styles.inputWrapper}>
-            <User size={20} color="#9CA3AF" />
-            <TextInput
-              style={styles.input}
-              value={approverName}
-              onChangeText={setApproverName}
-              placeholder="Approver Name"
-            />
-          </View>
-        </View>
+        {/* Approver Inputs */}
+        <Input
+          label="Approver Name*"
+          icon={User}
+          value={approverName}
+          onChangeText={setApproverName}
+          placeholder="Approver Name"
+        />
 
-        {/* Approver Email */}
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>Approver*</Text>
-          <View style={styles.inputWrapper}>
-            <Mail size={20} color="#9CA3AF" />
-            <TextInput
-              style={styles.input}
-              value={approverEmail}
-              onChangeText={setApproverEmail}
-              placeholder="Approver Email"
-              keyboardType="email-address"
-            />
-          </View>
-        </View>
+        <Input
+          label="Approver*"
+          icon={Mail}
+          value={approverEmail}
+          onChangeText={setApproverEmail}
+          placeholder="Approver Email"
+          keyboardType="email-address"
+        />
       </ScrollView>
 
       {/* Action Buttons */}
       <View style={styles.actionContainer}>
-        <TouchableOpacity style={styles.cancelButton} onPress={handleCancel}>
-          <Text style={styles.cancelButtonText}>Cancel</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.applyButton} onPress={handleSubmit}>
-          <Text style={styles.applyButtonText}>Apply</Text>
-        </TouchableOpacity>
+        <Button
+          title="Cancel"
+          variant="secondary"
+          onPress={handleCancel}
+          style={styles.actionButton}
+        />
+        <Button
+          title="Apply"
+          variant="primary"
+          onPress={handleSubmit}
+          style={styles.actionButton}
+        />
       </View>
     </SafeAreaView>
   );
@@ -144,27 +126,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F9FAFB',
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    backgroundColor: 'white',
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E7EB',
-  },
-  backButton: {
-    padding: 4,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#111827',
-  },
-  placeholder: {
-    width: 32,
-  },
   content: {
     flex: 1,
     paddingHorizontal: 20,
@@ -173,34 +134,9 @@ const styles = StyleSheet.create({
   dateRow: {
     flexDirection: 'row',
     gap: 12,
-    marginBottom: 20,
   },
   dateContainer: {
     flex: 1,
-  },
-  inputLabel: {
-    fontSize: 14,
-    color: '#9CA3AF',
-    marginBottom: 8,
-  },
-  dateInputWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    backgroundColor: 'white',
-    gap: 12,
-  },
-  dateInput: {
-    flex: 1,
-    fontSize: 16,
-    color: '#111827',
-  },
-  inputContainer: {
-    marginBottom: 20,
   },
   dropdownWrapper: {
     flexDirection: 'row',
@@ -212,6 +148,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 16,
     backgroundColor: 'white',
+    marginBottom: 20,
   },
   dropdownContent: {
     flexDirection: 'row',
@@ -230,35 +167,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#9CA3AF',
   },
+  reasonContainer: {
+    marginBottom: 20,
+  },
   reasonInput: {
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    backgroundColor: 'white',
-    fontSize: 16,
-    color: '#111827',
     minHeight: 120,
-  },
-  inputWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    backgroundColor: 'white',
-    gap: 12,
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
-    color: '#111827',
-  },
-  eyeIcon: {
-    padding: 4,
+    textAlignVertical: 'top',
   },
   actionContainer: {
     flexDirection: 'row',
@@ -269,30 +183,7 @@ const styles = StyleSheet.create({
     borderTopColor: '#E5E7EB',
     gap: 12,
   },
-  cancelButton: {
+  actionButton: {
     flex: 1,
-    paddingVertical: 16,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-    backgroundColor: '#F9FAFB',
-    alignItems: 'center',
-  },
-  cancelButtonText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#6B7280',
-  },
-  applyButton: {
-    flex: 1,
-    paddingVertical: 16,
-    borderRadius: 12,
-    backgroundColor: '#4F46E5',
-    alignItems: 'center',
-  },
-  applyButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: 'white',
   },
 });

@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Globe, User, Lock, Eye, EyeOff, ExternalLink } from 'lucide-react-native';
+
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
+import { TabSelector } from '@/components/ui/TabSelector';
+
+const tabs = [
+  { id: 'workplace', title: 'Workplace URL' },
+  { id: 'erp', title: 'ERP Code' }
+];
 
 export default function LoginScreen() {
   const [workplaceUrl, setWorkplaceUrl] = useState('https://');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [activeTab, setActiveTab] = useState('Workplace URL');
+  const [activeTab, setActiveTab] = useState('workplace');
 
   const handleLogin = () => {
-    // Navigate to main app
     router.replace('/(tabs)');
   };
 
@@ -41,85 +49,54 @@ export default function LoginScreen() {
 
           {/* Tab Selector */}
           <View style={styles.tabContainer}>
-            <TouchableOpacity 
-              style={[styles.tab, activeTab === 'Workplace URL' && styles.activeTab]}
-              onPress={() => setActiveTab('Workplace URL')}
-            >
-              <Text style={[styles.tabText, activeTab === 'Workplace URL' && styles.activeTabText]}>
-                Workplace URL
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={[styles.tab, activeTab === 'ERP Code' && styles.activeTab]}
-              onPress={() => setActiveTab('ERP Code')}
-            >
-              <Text style={[styles.tabText, activeTab === 'ERP Code' && styles.activeTabText]}>
-                ERP Code
-              </Text>
-            </TouchableOpacity>
+            <TabSelector
+              tabs={tabs}
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+            />
           </View>
 
           {/* Form */}
           <View style={styles.form}>
-            {/* Workplace URL Input */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Enter workplace url</Text>
-              <View style={styles.inputWrapper}>
-                <Globe size={20} color="#9CA3AF" style={styles.inputIcon} />
-                <TextInput
-                  style={styles.input}
-                  value={workplaceUrl}
-                  onChangeText={setWorkplaceUrl}
-                  placeholder="https://"
-                  placeholderTextColor="#9CA3AF"
-                />
-              </View>
-            </View>
+            <Input
+              label="Enter workplace url"
+              icon={Globe}
+              value={workplaceUrl}
+              onChangeText={setWorkplaceUrl}
+              placeholder="https://"
+            />
 
-            {/* Username Input */}
-            <View style={styles.inputContainer}>
-              <View style={styles.inputWrapper}>
-                <User size={20} color="#9CA3AF" style={styles.inputIcon} />
-                <TextInput
-                  style={styles.input}
-                  value={username}
-                  onChangeText={setUsername}
-                  placeholder="Username"
-                  placeholderTextColor="#9CA3AF"
-                />
-              </View>
-            </View>
+            <Input
+              icon={User}
+              value={username}
+              onChangeText={setUsername}
+              placeholder="Username"
+            />
 
-            {/* Password Input */}
-            <View style={styles.inputContainer}>
-              <View style={styles.inputWrapper}>
-                <Lock size={20} color="#9CA3AF" style={styles.inputIcon} />
-                <TextInput
-                  style={styles.input}
-                  value={password}
-                  onChangeText={setPassword}
-                  placeholder="Password"
-                  placeholderTextColor="#9CA3AF"
-                  secureTextEntry={!showPassword}
-                />
-                <TouchableOpacity 
-                  onPress={() => setShowPassword(!showPassword)}
-                  style={styles.eyeIcon}
-                >
+            <Input
+              icon={Lock}
+              value={password}
+              onChangeText={setPassword}
+              placeholder="Password"
+              secureTextEntry={!showPassword}
+              rightIcon={
+                <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
                   {showPassword ? (
                     <EyeOff size={20} color="#9CA3AF" />
                   ) : (
                     <Eye size={20} color="#9CA3AF" />
                   )}
                 </TouchableOpacity>
-              </View>
-            </View>
+              }
+            />
           </View>
 
           {/* Login Button */}
-          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-            <Text style={styles.loginButtonText}>Login</Text>
-          </TouchableOpacity>
+          <Button
+            title="Login"
+            onPress={handleLogin}
+            style={styles.loginButton}
+          />
 
           {/* Register Button */}
           <TouchableOpacity style={styles.registerButton}>
@@ -183,78 +160,13 @@ const styles = StyleSheet.create({
     color: '#9CA3AF',
   },
   tabContainer: {
-    flexDirection: 'row',
-    backgroundColor: '#F9FAFB',
-    borderRadius: 8,
-    padding: 4,
     marginBottom: 32,
-  },
-  tab: {
-    flex: 1,
-    paddingVertical: 12,
-    alignItems: 'center',
-    borderRadius: 6,
-  },
-  activeTab: {
-    backgroundColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  tabText: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#6B7280',
-  },
-  activeTabText: {
-    color: '#4F46E5',
   },
   form: {
     marginBottom: 32,
   },
-  inputContainer: {
-    marginBottom: 20,
-  },
-  inputLabel: {
-    fontSize: 14,
-    color: '#9CA3AF',
-    marginBottom: 8,
-    marginLeft: 4,
-  },
-  inputWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    backgroundColor: '#FAFAFA',
-  },
-  inputIcon: {
-    marginRight: 12,
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
-    color: '#111827',
-  },
-  eyeIcon: {
-    padding: 4,
-  },
   loginButton: {
-    backgroundColor: '#4F46E5',
-    paddingVertical: 16,
-    borderRadius: 12,
-    alignItems: 'center',
     marginBottom: 16,
-  },
-  loginButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: 'white',
   },
   registerButton: {
     flexDirection: 'row',
