@@ -2,16 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import { 
-  Plus, 
-  ClipboardList,
-  DollarSign,
-  Calendar,
-  UserCheck,
-  CheckSquare,
-  CreditCard,
-  Coins
-} from 'lucide-react-native';
+import { Plus, ClipboardList, DollarSign, Calendar, UserCheck, SquareCheck as CheckSquare, CreditCard, Coins } from 'lucide-react-native';
 
 import { TabSelector } from '@/components/ui/TabSelector';
 import { Button } from '@/components/ui/Button';
