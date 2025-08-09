@@ -1,79 +1,82 @@
 import React from 'react';
-import { View, TextInput, Text, StyleSheet, TextInputProps, ViewStyle } from 'react-native';
-import { Video as LucideIcon } from 'lucide-react-native';
+import { View, TextInput, Text, TouchableOpacity } from 'react-native';
+import { Video as LucideIcon, Eye, EyeOff } from 'lucide-react-native';
 
-interface InputProps extends TextInputProps {
+interface InputProps {
   label?: string;
+  placeholder?: string;
+  value?: string;
+  onChangeText?: (text: string) => void;
   icon?: LucideIcon;
   rightIcon?: React.ReactNode;
   error?: string;
-  containerStyle?: ViewStyle;
+  secureTextEntry?: boolean;
+  multiline?: boolean;
+  numberOfLines?: number;
+  keyboardType?: 'default' | 'email-address' | 'numeric';
+  className?: string;
+  containerStyle?: string;
 }
 
-export function Input({ 
-  label, 
-  icon: Icon, 
-  rightIcon, 
-  error, 
-  containerStyle, 
-  style,
-  ...props 
+export function Input({
+  label,
+  placeholder,
+  value,
+  onChangeText,
+  icon: Icon,
+  rightIcon,
+  error,
+  secureTextEntry = false,
+  multiline = false,
+  numberOfLines = 1,
+  keyboardType = 'default',
+  className,
+  containerStyle,
 }: InputProps) {
+  const [showPassword, setShowPassword] = React.useState(false);
+  const isPassword = secureTextEntry;
+
   return (
-    <View style={[styles.container, containerStyle]}>
-      {label && <Text style={styles.label}>{label}</Text>}
-      <View style={[styles.inputWrapper, error && styles.errorBorder]}>
-        {Icon && <Icon size={20} color="#9CA3AF" style={styles.leftIcon} />}
+    <View className={`mb-5 ${containerStyle}`}>
+      {label && (
+        <Text className="text-sm text-gray-400 mb-2 ml-1">
+          {label}
+        </Text>
+      )}
+      <View className={`flex-row items-center border border-gray-200 rounded-xl px-4 py-4 bg-white ${
+        error ? 'border-red-500' : ''
+      } ${multiline ? 'items-start' : 'items-center'} ${className}`}>
+        {Icon && (
+          <Icon size={20} color="#9CA3AF" className="mr-3" />
+        )}
         <TextInput
-          style={[styles.input, style]}
+          className={`flex-1 text-base text-gray-900 font-inter ${
+            multiline ? 'min-h-[100px]' : ''
+          }`}
+          placeholder={placeholder}
           placeholderTextColor="#9CA3AF"
-          {...props}
+          value={value}
+          onChangeText={onChangeText}
+          secureTextEntry={isPassword && !showPassword}
+          multiline={multiline}
+          numberOfLines={numberOfLines}
+          keyboardType={keyboardType}
+          textAlignVertical={multiline ? 'top' : 'center'}
         />
-        {rightIcon && <View style={styles.rightIcon}>{rightIcon}</View>}
+        {isPassword && (
+          <TouchableOpacity onPress={() => setShowPassword(!showPassword)} className="ml-3">
+            {showPassword ? (
+              <EyeOff size={20} color="#9CA3AF" />
+            ) : (
+              <Eye size={20} color="#9CA3AF" />
+            )}
+          </TouchableOpacity>
+        )}
+        {rightIcon && <View className="ml-3">{rightIcon}</View>}
       </View>
-      {error && <Text style={styles.errorText}>{error}</Text>}
+      {error && (
+        <Text className="text-xs text-red-500 mt-1 ml-1">{error}</Text>
+      )}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 20,
-  },
-  label: {
-    fontSize: 14,
-    color: '#9CA3AF',
-    marginBottom: 8,
-    marginLeft: 4,
-  },
-  inputWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    backgroundColor: 'white',
-  },
-  errorBorder: {
-    borderColor: '#DC2626',
-  },
-  leftIcon: {
-    marginRight: 12,
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
-    color: '#111827',
-  },
-  rightIcon: {
-    marginLeft: 12,
-  },
-  errorText: {
-    fontSize: 12,
-    color: '#DC2626',
-    marginTop: 4,
-    marginLeft: 4,
-  },
-});

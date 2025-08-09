@@ -1,29 +1,11 @@
 import { router } from 'expo-router';
-import { Calendar, ChevronDown, Mail, User } from 'lucide-react-native';
+import { Calendar, ChevronLeft, Mail, User } from 'lucide-react-native';
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-import { Button } from '@/components/ui/Button';
-import { Header } from '@/components/ui/Header';
 import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
 
-/*************  ✨ Windsurf Command ⭐  *************/
-/**
- * LeaveRequestScreen is a component for submitting a new leave request.
- * It allows users to input the start and end dates of the leave,
- * select the type of leave, toggle half-day leave, provide a reason,
- * and specify the approver's details.
- * 
- * - The screen includes input fields for start and end dates with a calendar icon.
- * - A dropdown for selecting the leave type.
- * - A toggle for adding a half-day leave.
- * - A multiline input for entering the reason for leave.
- * - Input fields for approver's name and email.
- * - Action buttons to cancel or submit the leave request.
- */
-
-/*******  91db586d-2521-482f-a6d3-9c52dcfe8122  *******/
 export default function LeaveRequestScreen() {
   const [startDate, setStartDate] = useState('2025-08-08');
   const [endDate, setEndDate] = useState('2025-08-08');
@@ -42,23 +24,25 @@ export default function LeaveRequestScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Header 
-        title="New Leave Request" 
-        showBackButton 
-        onBackPress={() => router.back()}
-      />
+    <SafeAreaView className="flex-1 bg-gray-50">
+      {/* Header */}
+      <View className="flex-row items-center px-5 py-4 bg-white border-b border-gray-100">
+        <TouchableOpacity onPress={() => router.back()} className="mr-4">
+          <ChevronLeft size={24} color="#2563EB" />
+        </TouchableOpacity>
+        <Text className="text-lg font-semibold text-gray-900">New Leave Request</Text>
+      </View>
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView className="flex-1 px-5 pt-6" showsVerticalScrollIndicator={false}>
         {/* Date Inputs */}
-        <View style={styles.dateRow}>
+        <View className="flex-row gap-3 mb-5">
           <Input
             label="Start Day*"
             icon={Calendar}
             value={startDate}
             onChangeText={setStartDate}
             placeholder="2025-08-08"
-            containerStyle={styles.dateContainer}
+            containerStyle="flex-1"
           />
           
           <Input
@@ -67,25 +51,24 @@ export default function LeaveRequestScreen() {
             value={endDate}
             onChangeText={setEndDate}
             placeholder="2025-08-08"
-            containerStyle={styles.dateContainer}
+            containerStyle="flex-1"
           />
         </View>
 
         {/* Leave Type Dropdown */}
-        <TouchableOpacity style={styles.dropdownWrapper}>
-          <View style={styles.dropdownContent}>
-            <Calendar size={20} color="#9CA3AF" />
-            <Text style={styles.dropdownPlaceholder}>Select leave type*</Text>
-          </View>
-          <ChevronDown size={20} color="#9CA3AF" />
-        </TouchableOpacity>
+        <Input
+          icon={Calendar}
+          placeholder="Select leave type*"
+          value={leaveType}
+          onChangeText={setLeaveType}
+        />
 
         {/* Half Day Toggle */}
         <TouchableOpacity 
-          style={styles.halfDayContainer}
+          className="py-4 mb-5"
           onPress={() => setIsHalfDay(!isHalfDay)}
         >
-          <Text style={styles.halfDayText}>Add half day</Text>
+          <Text className="text-base text-gray-400">Add half day</Text>
         </TouchableOpacity>
 
         {/* Reason Input */}
@@ -95,8 +78,7 @@ export default function LeaveRequestScreen() {
           placeholder="Type reason here...*"
           multiline
           numberOfLines={4}
-          style={styles.reasonInput}
-          containerStyle={styles.reasonContainer}
+          containerStyle="mb-5"
         />
 
         {/* Approver Inputs */}
@@ -119,87 +101,20 @@ export default function LeaveRequestScreen() {
       </ScrollView>
 
       {/* Action Buttons */}
-      <View style={styles.actionContainer}>
+      <View className="flex-row px-5 py-5 bg-white border-t border-gray-100 gap-3">
         <Button
           title="Cancel"
           variant="secondary"
           onPress={handleCancel}
-          style={styles.actionButton}
+          className="flex-1"
         />
         <Button
           title="Apply"
           variant="primary"
           onPress={handleSubmit}
-          style={styles.actionButton}
+          className="flex-1"
         />
       </View>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F9FAFB',
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 24,
-  },
-  dateRow: {
-    flexDirection: 'row',
-    gap: 12,
-  },
-  dateContainer: {
-    flex: 1,
-  },
-  dropdownWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    backgroundColor: 'white',
-    marginBottom: 20,
-  },
-  dropdownContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  dropdownPlaceholder: {
-    fontSize: 16,
-    color: '#9CA3AF',
-  },
-  halfDayContainer: {
-    paddingVertical: 16,
-    marginBottom: 20,
-  },
-  halfDayText: {
-    fontSize: 16,
-    color: '#9CA3AF',
-  },
-  reasonContainer: {
-    marginBottom: 20,
-  },
-  reasonInput: {
-    minHeight: 120,
-    textAlignVertical: 'top',
-  },
-  actionContainer: {
-    flexDirection: 'row',
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-    backgroundColor: 'white',
-    borderTopWidth: 1,
-    borderTopColor: '#E5E7EB',
-    gap: 12,
-  },
-  actionButton: {
-    flex: 1,
-  },
-});

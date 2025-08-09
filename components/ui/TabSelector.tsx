@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 
 interface Tab {
   id: string;
@@ -10,18 +10,27 @@ interface TabSelectorProps {
   tabs: Tab[];
   activeTab: string;
   onTabChange: (tabId: string) => void;
+  className?: string;
 }
 
-export function TabSelector({ tabs, activeTab, onTabChange }: TabSelectorProps) {
+export function TabSelector({ tabs, activeTab, onTabChange, className }: TabSelectorProps) {
   return (
-    <View style={styles.container}>
+    <View className={`flex-row bg-gray-50 rounded-lg p-1 ${className}`}>
       {tabs.map((tab) => (
         <TouchableOpacity
           key={tab.id}
-          style={[styles.tab, activeTab === tab.id && styles.activeTab]}
+          className={`flex-1 py-3 items-center rounded-md ${
+            activeTab === tab.id 
+              ? 'bg-white shadow-sm' 
+              : ''
+          }`}
           onPress={() => onTabChange(tab.id)}
         >
-          <Text style={[styles.tabText, activeTab === tab.id && styles.activeTabText]}>
+          <Text className={`text-sm font-medium font-inter ${
+            activeTab === tab.id 
+              ? 'text-blue-600' 
+              : 'text-gray-500'
+          }`}>
             {tab.title}
           </Text>
         </TouchableOpacity>
@@ -29,34 +38,3 @@ export function TabSelector({ tabs, activeTab, onTabChange }: TabSelectorProps) 
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    backgroundColor: '#F9FAFB',
-    borderRadius: 8,
-    padding: 4,
-  },
-  tab: {
-    flex: 1,
-    paddingVertical: 12,
-    alignItems: 'center',
-    borderRadius: 6,
-  },
-  activeTab: {
-    backgroundColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  tabText: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#6B7280',
-  },
-  activeTabText: {
-    color: '#4F46E5',
-  },
-});

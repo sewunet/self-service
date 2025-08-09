@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 
 interface ButtonProps {
   title: string;
@@ -7,8 +7,8 @@ interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
   size?: 'small' | 'medium' | 'large';
   disabled?: boolean;
-  style?: ViewStyle;
-  textStyle?: TextStyle;
+  className?: string;
+  textClassName?: string;
   icon?: React.ReactNode;
 }
 
@@ -18,95 +18,65 @@ export function Button({
   variant = 'primary',
   size = 'medium',
   disabled = false,
-  style,
-  textStyle,
+  className,
+  textClassName,
   icon,
 }: ButtonProps) {
-  const getVariantStyles = () => {
-    const variants = {
-      primary: {
-        backgroundColor: '#2563EB',
-        borderColor: '#2563EB',
-        textColor: '#FFFFFF',
-      },
-      secondary: {
-        backgroundColor: '#F3F4F6',
-        borderColor: '#F3F4F6',
-        textColor: '#374151',
-      },
-      outline: {
-        backgroundColor: 'transparent',
-        borderColor: '#D1D5DB',
-        textColor: '#374151',
-      },
-      ghost: {
-        backgroundColor: 'transparent',
-        borderColor: 'transparent',
-        textColor: '#2563EB',
-      },
-    };
-    return variants[variant];
+  const getVariantClasses = () => {
+    switch (variant) {
+      case 'primary':
+        return 'bg-blue-500 border-blue-500';
+      case 'secondary':
+        return 'bg-gray-100 border-gray-200';
+      case 'outline':
+        return 'bg-white border-gray-200';
+      case 'ghost':
+        return 'bg-transparent border-transparent';
+      default:
+        return 'bg-blue-500 border-blue-500';
+    }
   };
 
-  const getSizeStyles = () => {
-    const sizes = {
-      small: { paddingVertical: 8, paddingHorizontal: 12, fontSize: 14 },
-      medium: { paddingVertical: 12, paddingHorizontal: 16, fontSize: 16 },
-      large: { paddingVertical: 16, paddingHorizontal: 20, fontSize: 18 },
-    };
-    return sizes[size];
+  const getTextClasses = () => {
+    switch (variant) {
+      case 'primary':
+        return 'text-white';
+      case 'secondary':
+        return 'text-gray-700';
+      case 'outline':
+        return 'text-gray-700';
+      case 'ghost':
+        return 'text-blue-500';
+      default:
+        return 'text-white';
+    }
   };
 
-  const variantStyles = getVariantStyles();
-  const sizeStyles = getSizeStyles();
+  const getSizeClasses = () => {
+    switch (size) {
+      case 'small':
+        return 'py-2 px-3';
+      case 'medium':
+        return 'py-3 px-4';
+      case 'large':
+        return 'py-4 px-6';
+      default:
+        return 'py-3 px-4';
+    }
+  };
 
   return (
     <TouchableOpacity
-      style={[
-        styles.button,
-        {
-          backgroundColor: variantStyles.backgroundColor,
-          borderColor: variantStyles.borderColor,
-          paddingVertical: sizeStyles.paddingVertical,
-          paddingHorizontal: sizeStyles.paddingHorizontal,
-        },
-        disabled && styles.disabled,
-        style,
-      ]}
+      className={`flex-row items-center justify-center rounded-xl border ${getVariantClasses()} ${getSizeClasses()} ${
+        disabled ? 'opacity-50' : ''
+      } ${className}`}
       onPress={onPress}
       disabled={disabled}
     >
       {icon}
-      <Text
-        style={[
-          styles.text,
-          { color: variantStyles.textColor, fontSize: sizeStyles.fontSize },
-          disabled && styles.disabledText,
-          textStyle,
-        ]}
-      >
+      <Text className={`text-base font-medium font-inter ${getTextClasses()} ${textClassName}`}>
         {title}
       </Text>
     </TouchableOpacity>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 8,
-    borderWidth: 1,
-    gap: 8,
-  },
-  text: {
-    fontWeight: '500',
-  },
-  disabled: {
-    opacity: 0.5,
-  },
-  disabledText: {
-    color: '#9CA3AF',
-  },
-});

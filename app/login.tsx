@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import { Globe, User, Lock, Eye, EyeOff, ExternalLink } from 'lucide-react-native';
-
+import { Globe, User, Lock, ExternalLink } from 'lucide-react-native';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { TabSelector } from '@/components/ui/TabSelector';
@@ -29,35 +28,34 @@ export default function LoginScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="flex-1 bg-white">
       <KeyboardAvoidingView 
-        style={styles.keyboardView}
+        className="flex-1"
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <View style={styles.content}>
+        <View className="flex-1 px-6 pt-10">
           {/* Logo */}
-          <View style={styles.logoContainer}>
-            <Text style={styles.logoText}>ESS</Text>
-            <Text style={styles.logoSubtext}>by Nesscale</Text>
+          <View className="items-center mb-10">
+            <Text className="text-5xl font-bold text-blue-600 tracking-wider">ESS</Text>
+            <Text className="text-base text-blue-600 mt-1">by Nesscale</Text>
           </View>
 
           {/* Welcome Text */}
-          <View style={styles.welcomeContainer}>
-            <Text style={styles.welcomeTitle}>Let's sign you in</Text>
-            <Text style={styles.welcomeSubtitle}>Enter below details to continue..</Text>
+          <View className="items-center mb-10">
+            <Text className="text-2xl font-semibold text-gray-900 mb-2">Let's sign you in</Text>
+            <Text className="text-base text-gray-400">Enter below details to continue..</Text>
           </View>
 
           {/* Tab Selector */}
-          <View style={styles.tabContainer}>
-            <TabSelector
-              tabs={tabs}
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-            />
-          </View>
+          <TabSelector
+            tabs={tabs}
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            className="mb-8"
+          />
 
           {/* Form */}
-          <View style={styles.form}>
+          <View className="mb-8">
             <Input
               label="Enter workplace url"
               icon={Globe}
@@ -78,16 +76,7 @@ export default function LoginScreen() {
               value={password}
               onChangeText={setPassword}
               placeholder="Password"
-              secureTextEntry={!showPassword}
-              rightIcon={
-                <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                  {showPassword ? (
-                    <EyeOff size={20} color="#9CA3AF" />
-                  ) : (
-                    <Eye size={20} color="#9CA3AF" />
-                  )}
-                </TouchableOpacity>
-              }
+              secureTextEntry={true}
             />
           </View>
 
@@ -95,20 +84,20 @@ export default function LoginScreen() {
           <Button
             title="Login"
             onPress={handleLogin}
-            style={styles.loginButton}
+            className="mb-4"
           />
 
           {/* Register Button */}
-          <TouchableOpacity style={styles.registerButton}>
-            <Text style={styles.registerButtonText}>Register for ESS</Text>
+          <TouchableOpacity className="flex-row items-center justify-center py-4 rounded-xl border border-blue-500 bg-white mb-8">
+            <Text className="text-base font-medium text-blue-500 mr-2">Register for ESS</Text>
             <ExternalLink size={16} color="#4F46E5" />
           </TouchableOpacity>
 
           {/* Demo Section */}
-          <View style={styles.demoSection}>
-            <Text style={styles.demoTitle}>Try Our Demo App</Text>
-            <TouchableOpacity style={styles.demoButton} onPress={handleDemoLogin}>
-              <Text style={styles.demoButtonText}>Continue as Demo User ›</Text>
+          <View className="items-center mt-auto pb-10">
+            <Text className="text-base text-blue-600 mb-4">Try Our Demo App</Text>
+            <TouchableOpacity className="py-4 px-6 rounded-xl border border-gray-200 bg-gray-50" onPress={handleDemoLogin}>
+              <Text className="text-base text-gray-500">Continue as Demo User ›</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -116,95 +105,3 @@ export default function LoginScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-  },
-  keyboardView: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 40,
-  },
-  logoContainer: {
-    alignItems: 'center',
-    marginBottom: 40,
-  },
-  logoText: {
-    fontSize: 48,
-    fontWeight: 'bold',
-    color: '#4F46E5',
-    letterSpacing: 2,
-  },
-  logoSubtext: {
-    fontSize: 16,
-    color: '#4F46E5',
-    marginTop: 4,
-  },
-  welcomeContainer: {
-    alignItems: 'center',
-    marginBottom: 40,
-  },
-  welcomeTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: '#111827',
-    marginBottom: 8,
-  },
-  welcomeSubtitle: {
-    fontSize: 16,
-    color: '#9CA3AF',
-  },
-  tabContainer: {
-    marginBottom: 32,
-  },
-  form: {
-    marginBottom: 32,
-  },
-  loginButton: {
-    marginBottom: 16,
-  },
-  registerButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 16,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#4F46E5',
-    backgroundColor: 'white',
-    marginBottom: 32,
-    gap: 8,
-  },
-  registerButtonText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#4F46E5',
-  },
-  demoSection: {
-    alignItems: 'center',
-    marginTop: 'auto',
-    paddingBottom: 40,
-  },
-  demoTitle: {
-    fontSize: 16,
-    color: '#4F46E5',
-    marginBottom: 16,
-  },
-  demoButton: {
-    paddingVertical: 16,
-    paddingHorizontal: 24,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-    backgroundColor: '#FAFAFA',
-  },
-  demoButtonText: {
-    fontSize: 16,
-    color: '#6B7280',
-  },
-});

@@ -3,6 +3,8 @@ import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold, Inter_700Bold, us
 import { SplashScreen, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import '../global.css';
+import '../global.css';
 
 // Prevent splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
